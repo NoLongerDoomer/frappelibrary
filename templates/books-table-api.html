@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Books Table Api Response</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <table class="table table-bordered table-striped booktableapi">
+        <thead class="table-secondary">
+            <tr>
+                <th scope=" col">Book Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Average Ratings</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">ISBN13</th>
+                <th scope="col">Language Code</th>
+                <th scope="col">Pages</th>
+                <th scope="col">Ratings Count</th>
+                <th scope="col">Review Counts</th>
+                <th scope="col">Publication Date</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Count</th>
+                <th>Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr class="table-Light">
+                <td>{{book.bookID}}</td>
+                <td>{{book.title}}</td>
+                <td>{{book.authors}}</td>
+                <td>{{book.average_rating}}</td>
+                <td>{{book.isbn}}</td>
+                <td>{{book.isbn13}}</td>
+                <td>{{book.language_code}}</td>
+                <td>{{book["  num_pages"]}}</td>
+                <td>{{book.ratings_count}}</td>
+                <td>{{book.text_reviews_count}}</td>
+                <td>{{book.publication_date}}</td>
+                <td>{{book.publisher}}</td>
+                <td><input type="number" style="width: 80%;" id="points" name="points" step="1" value="0"></td>
+                <td> <button type="button" class="btn btn-primary" id="searchbooks">Add</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $('.booktableapi').on('click', '#searchbooks', function () {
+            const rowArray = [];
+            var $row = $(this).closest("tr"),
+                $tds = $row.find("td");
+            $.each($tds, function () {
+                rowArray.push($(this).text());
+            });
+            rowArray.pop();
+            rowArray.pop();
+            rowArray.push($tds.find("input").val());
+            $.ajax({
+                type: "POST",
+                url: "importbooks",
+                data: JSON.stringify({
+                    rowArray
+                }),
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

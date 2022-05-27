@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Books</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <table name="booktable" class="table table-bordered table-striped booktable">
+        <thead class="darkbg">
+            <tr>
+                <th id="bookID" scope=" col">Book Id</th>
+                <th id="title" scope="col">Title</th>
+                <th id="authors" scope="col">Authors</th>
+                <th id="average_ratings" scope="col">Average Ratings</th>
+                <th id="isbn" scope="col">ISBN</th>
+                <th id="isbn13" scope="col">ISBN13</th>
+                <th id="language_code" scope="col">Language Code</th>
+                <th id="num_pages" scope="col">Pages</th>
+                <th id="ratings_count" scope="col">Ratings Count</th>
+                <th id="text_reviews_count" scope="col">Review Counts</th>
+                <th id="publication_date" scope="col">Publication Date</th>
+                <th id="publisher" scope="col">Publisher</th>
+                <th id="count" scope="col">Count</th>
+                <th scope="col">Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{book.book_id}}</td>
+                <td>{{book.title}}</td>
+                <td>{{book.authors}}</td>
+                <td>{{book.average_rating}}</td>
+                <td>{{book.isbn}}</td>
+                <td>{{book.isbn13}}</td>
+                <td>{{book.language_code}}</td>
+                <td>{{book.num_page}}</td>
+                <td>{{book.ratings_count}}</td>
+                <td>{{book.text_reviews_count}}</td>
+                <td>{{book.publication_date}}</td>
+                <td>{{book.publisher}}</td>
+                <td>{{book.count}}</td>
+                <td><input type="checkbox"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        // $('.booktable').on('click', '.editbutton', function () {
+        //     const rowArray = [];
+        //     var $row = $(this).closest("tr"),
+        //         $tds = $row.find("td");
+        //     $.each($tds, function () {
+        //         rowArray.push($(this).text());
+        //     });
+        //     rowArray.pop();
+        //     rowArray.pop();
+        //     rowArray.pop();
+        //     rowArray.push($tds.find("input").val());
+        //     console.log(rowArray);
+        // });
+    </script>
+</body>
+
+</html>

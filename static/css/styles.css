@@ -1,0 +1,46 @@
+.row-header {
+  margin: 0px auto;
+  padding: 0px 0px; 
+}
+
+.row-content {
+  margin: 0px 0px 0px auto;
+  padding: 50px 0px 40px;
+  border-bottom: 1px ridge;
+  min-height: 40px; 
+}
+
+.footer {
+  background-color: #E3E3E3;
+  margin: 0px auto;
+  padding: 20px 0px; 
+}
+
+
+body {
+  padding: 50px 0px 0px 0px; 
+  z-index: 0; 
+}
+
+.navbar-dark {
+  background-color: #E3E3E3;
+  text-shadow: #0f0f0f; 
+}
+
+
+.darkbg {
+  color: #ddd;
+  background-color: #5D6C87; 
+}
+
+.dark {
+  color: black;
+   }
+
+.btn{
+  border-radius: 30px;
+}
+
+.modal {
+  overflow-y:auto;
+}

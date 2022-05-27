@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Home</title>
+    <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet">
+    <script src="{{url_for('static', filename='js/bootstrap.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    <link href="{{url_for('static', filename='css/datatables.css')}}" rel="stylesheet">
+    <script src="{{url_for('static', filename='js/datatables.js')}}"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark dark navbar-expand-sm fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+                <span class="navbar-toggler-icon"> </span>
+            </button>
+            <a class="navbar-brand mr-auto" href="#"><img src="{{url_for('static', filename='images/logo.png')}}"
+                    height="45" width="50"></a>
+            <div class="collapse navbar-collapse" id="Navbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="#" style="color: black;"> <span
+                                class="fa dark fa-home fa-lg"></span> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./aboutus.html" style="color: black;"> <span
+                                class="fa dark fa-info fa-lg"></span> Members</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" style="color: black;"> <span
+                                class="fa dark fa-list fa-lg"> </span> Transactions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./contactus.html" style="color: black;"> <span
+                                class="fa dark fa-address-card fa-lg"></span> Contact</a></li>
+                </ul>
+                <span class="navbar-text" id="loginbtn" style="color: black;">
+
+                    <span class="fa dark fa-sign-in"></span> Login
+
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row row-content align-item-center">
+            <div class="col col-sm order-sm-first col-md">
+                <div class="media"></div>
+                <div class="media-body">
+                    <h2 class="mt-0">The Watchmen </h2>
+                    <p class="d-none d-sm-block">I prefer the stillness here. I am tired of Earth. These people. I’m
+                        tired of being caught in the tangle of their lives. They claim their labors are to build a
+                        heaven, yet their heaven is populated with horrors. Perhaps the world is not made. Perhaps
+                        nothing is made. A clock without a craftsman. It's too late. Always has been, always will be,
+                        too late.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container align-item-center">
+        <div class="row row-content align-item-center">
+            <div class="col col-md-1">
+                <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#addbooksmodal">
+                    Import
+                </button>
+            </div>
+            <div class="col col-md-1">
+                <button class="btn btn-lg btn-info" type="submit">Add</button>
+            </div>
+            <div class="col col-md-1">
+                <button class="btn btn-lg btn-info" type="submit" id="editbooks">Edit</button>
+            </div>
+            <div class="col col-md-1">
+                <button class="btn btn-lg btn-danger" type="submit">Delete</button>
+            </div>
+        </div>
+        <div class="col col-sm col-md" id="bookdiv">
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="addbooksmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import Books</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="row g-3">
+                        <div class="row"><span>Add Parameters to Import Books</span></div>
+                        <div class="row mb-3 mt-3">
+                            <label for="books-title" class="col-sm-2 col-form-label">Title: </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="books-title" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="books-authors" class="col-sm-2 col-form-label">Authors: </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="books-authors">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="books-isbn" class="col-sm-2 col-form-label">ISBN: </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="books-isbn">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="books-publisher" class="col-sm-2 col-form-label">Publisher: </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="books-publisher">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="searchbooks">Search Books</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="booksresultmodal">
+        <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">These Books Were found</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="apiresponsemodal"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+                    <button type="button" class="btn btn-primary" id="searchbooks">Show more Books?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container
+         align-item-center">
+        <div class="col col-sm order-sm-first col-md">
+            <div class="media">
+                <div class="media-body">
+                    <h2>Blade Runner</h2>
+                    <p class="d-none d-sm-block">I've seen things you people wouldn't believe... Attack ships on fire
+                        off the shoulder of Orion... I watched C-beams glitter in the dark near the Tannhäuser Gate. All
+                        those moments will be lost in time, like tears in rain... Time to die.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <p>https://github.com/NoLongerDoomer</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "getbooks",
+                success: function (result) {
+                    $('#bookdiv').html("");
+                    $('#bookdiv').append(result.data);
+                    $('.booktable').DataTable();
+                }
+            });
+        });
+
+        $('#searchbooks').click(function () {
+            var urlforapi = getBooksModalValue();
+            console.log(urlforapi);
+            $.ajax({
+                type: "POST",
+                url: "getbooksfromfrappe",
+                data: {
+                    "apiurl": urlforapi
+                },
+                success: function (result) {
+                    $('#apiresponsemodal').html("");
+                    $('#apiresponsemodal').append(result.data);
+                    $('.booktableapi').DataTable({
+                        "pageLength": 25
+                    });
+                    $('#booksresultmodal').modal('show');
+                }
+            })
+        });
+
+        function getBooksModalValue() {
+            var isbn = $('#books-isbn').val();
+            var publisher = $('#books-publisher').val();
+            var authors = $('#books-authors').val();
+            var title = $('#books-title').val();
+            var urlforapi = "";
+            if (isbn != "")
+                urlforapi += "isbn=" + isbn + "&";
+            if (publisher != "")
+                urlforapi += "publisher=" + publisher + "&";
+            if (authors != "")
+                urlforapi += "authors=" + authors + "&";
+            if (title != "")
+                urlforapi += "title=" + title + "&";
+            return urlforapi;
+        }
+    </script>
+
+</body>
+
+</html>
