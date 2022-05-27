@@ -16,7 +16,7 @@
 
 <body>
     <nav class="navbar navbar-dark dark navbar-expand-sm fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
                 <span class="navbar-toggler-icon"> </span>
             </button>
@@ -42,7 +42,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid-fluid">
         <div class="row row-content align-item-center">
             <div class="col col-sm order-sm-first col-md">
                 <div class="media"></div>
@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="container align-item-center">
+    <div class="container-fluid align-item-center">
         <div class="row row-content align-item-center">
             <div class="col col-md-1">
                 <button type="button" class="btn btn-lg btn-primary" data-bs-toggle="modal"
@@ -73,7 +73,7 @@
                 <button class="btn btn-lg btn-info" type="submit" id="editbooks">Edit</button>
             </div>
             <div class="col col-md-1">
-                <button class="btn btn-lg btn-danger" type="submit">Delete</button>
+                <button class="btn btn-lg btn-danger" id="deletebooks" type="submit">Delete</button>
             </div>
         </div>
         <div class="col col-sm col-md" id="bookdiv">
@@ -142,7 +142,7 @@
         </div>
     </div>
 
-    <div class="container
+    <div class="container-fluid
          align-item-center">
         <div class="col col-sm order-sm-first col-md">
             <div class="media">
@@ -157,7 +157,7 @@
     </div>
 
     <footer class="footer">
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="row justify-content-center">
                 <div class="col-auto">
@@ -168,6 +168,7 @@
     </footer>
 
     <script>
+        // On Document Ready Fire Ajax Request to show books in Library on index page
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
@@ -180,6 +181,7 @@
             });
         });
 
+        //To Import Books from Frappe API 
         $('#searchbooks').click(function () {
             var urlforapi = getBooksModalValue();
             console.log(urlforapi);
@@ -190,6 +192,7 @@
                     "apiurl": urlforapi
                 },
                 success: function (result) {
+                    //Displays API Result in table format
                     $('#apiresponsemodal').html("");
                     $('#apiresponsemodal').append(result.data);
                     $('.booktableapi').DataTable({
@@ -200,6 +203,44 @@
             })
         });
 
+        //To Edit Books Using a modal
+        $("#editbooks").click(function () {
+            var tableControl = document.getElementsByClassName('booktable');
+            var arrayOfValues = [];
+            var boxes = $('input:checkbox:checked');
+            if (boxes.length > 1) {
+                alert("Select Only One CheckBox to Edit");
+            } else {
+                $('input:checkbox:checked', tableControl).each(function () {
+                    var row = $(this).closest('tr');
+                    var data = row.find("td");
+                    $.each(data, function () {
+                        if ($(this).text() != "")
+                            arrayOfValues.push($(this).text());
+                    });
+                }).get();
+                console.log(arrayOfValues);
+            }
+        });
+
+        //To delete books
+        $("#deletebooks").click(function () {
+            var tableControl = document.getElementsByClassName('booktable');
+            var arrayOfValues = [];
+            var boxes = $('input:checkbox:checked');
+            // if()
+            $('input:checkbox:checked', tableControl).each(function () {
+                var row = $(this).closest('tr');
+                var data = row.find("td:first");
+                $.each(data, function () {
+                    if ($(this).text() != "")
+                        arrayOfValues.push($(this).text());
+                });
+            }).get();
+            console.log(arrayOfValues);
+        });
+
+        //method to build url for API request based on parameters entered
         function getBooksModalValue() {
             var isbn = $('#books-isbn').val();
             var publisher = $('#books-publisher').val();

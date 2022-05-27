@@ -44,7 +44,7 @@
                 <td>{{book.publication_date}}</td>
                 <td>{{book.publisher}}</td>
                 <td>{{book.count}}</td>
-                <td><input type="checkbox"></td>
+                <td><input class="checkbox" name="checkbox" style=" width: 25px; height : 25px;" type="checkbox"></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -62,6 +62,19 @@
         //     rowArray.pop();
         //     rowArray.push($tds.find("input").val());
         //     console.log(rowArray);
+        // });
+
+        // $('.booktable tbody').on('click', '.checkbox', function () {
+        //     var row = $(this).closest("tr");
+        //     var data = row.find("td");
+        //     var rowArray = [];
+        //     if (this.checked == true) {
+        //         $.each(data, function () {
+        //             if ($(this).text() != "")
+        //                 rowArray.push($(this).text());
+        //         });
+        //         console.log(rowArray);
+        //     }
         // });
     </script>
 </body>

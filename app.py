@@ -1,5 +1,4 @@
 import MySQLdb.cursors
-from matplotlib.pyplot import get
 import requests
 from flask import Flask, jsonify, render_template, request
 from flask_mysqldb import MySQL
