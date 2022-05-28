@@ -29,7 +29,6 @@ def importbooks():
     return "Success"
 
 def importbooksmethod(x):
-    print(x[0])
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.callproc('insertbooks',[x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10],x[11],x[12]])
     mysql.connection.commit()
@@ -55,13 +54,11 @@ def books():
 def deletebooks():
     response_arary = request.get_json("arrayOfValues")
     response_array = response_arary['arrayOfValues']
-    print(response_array)
     for item in response_array:
         deletebooksmethod(item)
     return "Success"
 
 def deletebooksmethod(id):
-    print(id)
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.callproc('deletebooks',[id])
     mysql.connection.commit()
@@ -69,14 +66,17 @@ def deletebooksmethod(id):
 
 @app.route('/updatebooks', methods=['POST'])
 def updatebooks():
-    column = request.form.get("column")
-    value = request.form.get("value")
-    id = request.form.get("id")
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("update books set {0} = '{1}' where bookID = {2}".format(column, value, id))
-    mysql.connection.commit()
-    return jsonify({"data": "Updated"})
+    response_arary = request.get_json("arrayUpdatedVlaues")
+    response_array = response_arary['arrayUpdatedVlaues']
+    updatebooksmethod(response_array)
+    return "Success"
 
+
+def updatebooksmethod(x):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.callproc('updatebooksproc',[x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10],x[11],x[12]])
+    mysql.connection.commit()
+    cursor.close()
 
 @app.route('/footerenable')
 def footercheck():

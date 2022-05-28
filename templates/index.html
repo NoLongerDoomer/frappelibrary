@@ -272,13 +272,14 @@
                     $(this).val(arrayOfValues[i]);
                     i++;
                 })
-                var arrayUpdatedVlaues = [];
                 $('#updatebooks').click(function () {
+                    var arrayUpdatedVlaues = [];
                     $('input', editmodal).each(function (i = 0) {
                         var text = $(this).val();
                         arrayUpdatedVlaues.push(text);
                         i++;
                     })
+                    console.log(arrayUpdatedVlaues);
                     $.ajax({
                         url: "updatebooks",
                         type: "POST",
