@@ -142,14 +142,61 @@
         </div>
     </div>
 
-    <div class="container-fluid
-         align-item-center">
+    <div class="modal" tabindex="-1" id="editbooksmodal">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Here</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container editbooksmodal">
+                        <label class=" col-sm-4">Book ID: </label>
+                        <input type="text" class="col-sm-6" readonly>
+                        <label class="col-sm-4">Title: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Authors: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Average Ratings: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">ISBN: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">ISBN13: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Language Code: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Pages: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Ratings Count: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Reviews count: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Publication Date: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Publisher: </label>
+                        <input type="text" class="col-sm-6">
+                        <label class="col-sm-4">Count: </label>
+                        <input type="text" class="col-sm-6">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="updatebooks">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class=" container-fluid align-item-center">
         <div class="col col-sm order-sm-first col-md">
             <div class="media">
                 <div class="media-body">
                     <h2>Blade Runner</h2>
-                    <p class="d-none d-sm-block">I've seen things you people wouldn't believe... Attack ships on fire
-                        off the shoulder of Orion... I watched C-beams glitter in the dark near the Tannhäuser Gate. All
+                    <p class="d-none d-sm-block">I've seen things you people wouldn't believe... Attack
+                        ships on fire
+                        off the shoulder of Orion... I watched C-beams glitter in the dark near the
+                        Tannhäuser Gate. All
                         those moments will be lost in time, like tears in rain... Time to die.</p>
                 </div>
             </div>
@@ -211,6 +258,7 @@
             if (boxes.length > 1) {
                 alert("Select Only One CheckBox to Edit");
             } else {
+                var editmodal = $('.editbooksmodal');
                 $('input:checkbox:checked', tableControl).each(function () {
                     var row = $(this).closest('tr');
                     var data = row.find("td");
@@ -219,7 +267,29 @@
                             arrayOfValues.push($(this).text());
                     });
                 }).get();
-                console.log(arrayOfValues);
+                $('#editbooksmodal').modal('show');
+                $('input', editmodal).each(function (i = 0) {
+                    $(this).val(arrayOfValues[i]);
+                    i++;
+                })
+                var arrayUpdatedVlaues = [];
+                $('#updatebooks').click(function () {
+                    $('input', editmodal).each(function (i = 0) {
+                        var text = $(this).val();
+                        arrayUpdatedVlaues.push(text);
+                        i++;
+                    })
+                    $.ajax({
+                        url: "updatebooks",
+                        type: "POST",
+                        data: JSON.stringify({
+                            arrayUpdatedVlaues
+                        }),
+                        success: function (result) {
+                            console.log(result);
+                        }
+                    })
+                })
             }
         });
 
@@ -228,7 +298,6 @@
             var tableControl = document.getElementsByClassName('booktable');
             var arrayOfValues = [];
             var boxes = $('input:checkbox:checked');
-            // if()
             $('input:checkbox:checked', tableControl).each(function () {
                 var row = $(this).closest('tr');
                 var data = row.find("td:first");
@@ -236,8 +305,17 @@
                     if ($(this).text() != "")
                         arrayOfValues.push($(this).text());
                 });
-            }).get();
-            console.log(arrayOfValues);
+            })
+            $.ajax({
+                url: "deletebooks",
+                type: "POST",
+                data: JSON.stringify({
+                    arrayOfValues
+                }),
+                success: function (result) {
+                    console.log(result);
+                }
+            })
         });
 
         //method to build url for API request based on parameters entered

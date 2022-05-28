@@ -21,27 +21,6 @@ def home():
 def homeagain():
     return jsonify({"data": render_template("home.html")})
 
-
-@app.route('/insertintodb')
-def getdata():
-    response_arary = request.form.get("data")
-    # request.
-    # api_url = "https://frappe.io/api/method/frappe-library"
-    # response = requests.get(api_url)
-    # response_array = response.json().get("message")
-    putdata(response_arary)
-    return "yooo"
-
-def putdata(response):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    for x in response:
-        # cursor.callproc('insertbooks', [x['bookID'], x['title'], x['authors'], x['average_rating'], x['isbn'],
-        #                                 x['isbn13'], x['language_code'], x['num_pages'], x['ratings_count'],
-        #                                 x['text_reviews_count'], x['publication_date'], x['publisher']])
-        cursor.callproc('insertbooks',)
-        mysql.connection.commit()
-    cursor.close()
-
 @app.route('/importbooks', methods=['POST'])
 def importbooks(): 
     response_arary = request.get_json("rowArray")
@@ -66,19 +45,27 @@ def getbooksfromapi() :
 @app.route('/getbooks')
 def books():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("select * from books")
+    cursor.execute("select b.book_id, b.title, b.authors, b.average_rating, b.isbn, b.isbn13, b.language_code, b.num_page, b.ratings_count," +
+    "b.text_reviews_count, b.publication_date, b.publisher, bc.count from books b inner join books_count bc on b.book_id = bc.book_id")
     list = cursor.fetchall()
     return jsonify({"data": render_template("books-table.html", books=list)})
 
 
-@app.route('/delete')
+@app.route('/deletebooks', methods=['POST'])
 def deletebooks():
-    id = request.args.get('bookID')
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('delete from books where bookID = {0}'.format(id))
-    mysql.connection.commit()
-    return render_template("ind ex.html")
+    response_arary = request.get_json("arrayOfValues")
+    response_array = response_arary['arrayOfValues']
+    print(response_array)
+    for item in response_array:
+        deletebooksmethod(item)
+    return "Success"
 
+def deletebooksmethod(id):
+    print(id)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.callproc('deletebooks',[id])
+    mysql.connection.commit()
+    cursor.close()
 
 @app.route('/updatebooks', methods=['POST'])
 def updatebooks():
