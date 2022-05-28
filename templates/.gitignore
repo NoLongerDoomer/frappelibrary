@@ -1,0 +1,10 @@
+__pycache__
+.idea
+static/css/bootstrap.css
+static/css/bootstrap.css.map
+static/css/datatables.css
+static/js/datatables.js
+static/js/bootstrap.js
+static/js/bootstrap.js.map
+static/js/sweetalert2.js
+
