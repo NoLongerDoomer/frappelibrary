@@ -34,6 +34,20 @@ def importbooksmethod(x):
     mysql.connection.commit()
     cursor.close()
 
+@app.route('/addbooks', methods=['POST'])
+def addbooks():
+    response_arary = request.get_json("arrayVlaues")
+    response_array = response_arary['arrayVlaues']
+    addbooksmethod(response_array)
+    return "Success"
+
+def addbooksmethod(x):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.callproc('addbooks',[x[0],x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10],x[11]])
+    mysql.connection.commit()
+    cursor.close()
+
+
 @app.route('/getbooksfromfrappe', methods=['POST'])
 def getbooksfromapi() :
     url = request.form.get("apiurl")

@@ -67,7 +67,7 @@
                 </button>
             </div>
             <div class="col col-md-1">
-                <button class="btn btn-lg btn-info" type="submit">Add</button>
+                <button class="btn btn-lg btn-info" type="submit" id="addbooks">Add</button>
             </div>
             <div class="col col-md-1">
                 <button class="btn btn-lg btn-info" type="submit" id="editbooks">Edit</button>
@@ -151,8 +151,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="container editbooksmodal">
-                        <label class=" col-sm-4">Book ID: </label>
-                        <input type="text" class="col-sm-6" readonly>
+                        <label class=" col-sm-4 bookid">Book ID: </label>
+                        <input type="text" class="col-sm-6 bookid" readonly>
                         <label class="col-sm-4">Title: </label>
                         <input type="text" class="col-sm-6">
                         <label class="col-sm-4">Authors: </label>
@@ -216,7 +216,9 @@
 
     <script>
         // On Document Ready Fire Ajax Request to show books in Library on index page
-        $(document).ready(function () {
+        $(document).ready(getbooksfromdb());
+
+        function getbooksfromdb() {
             $.ajax({
                 type: "GET",
                 url: "getbooks",
@@ -226,7 +228,7 @@
                     $('.booktable').DataTable();
                 }
             });
-        });
+        };
 
         //To Import Books from Frappe API 
         $('#searchbooks').click(function () {
@@ -247,6 +249,34 @@
                     });
                     $('#booksresultmodal').modal('show');
                 }
+            })
+        });
+
+        $('#addbooks').click(function () {
+            $('#editbooksmodal .modal-title').html("Add Books");
+            $('#editbooksmodal #updatebooks').html("Add");
+            $('#editbooksmodal .bookid').remove();
+            var editmodal = $('.editbooksmodal');
+            $('#editbooksmodal').modal('show');
+            $('#updatebooks').click(function () {
+                var arrayVlaues = [];
+                $('input', editmodal).each(function (i = 0) {
+                    var text = $(this).val();
+                    arrayVlaues.push(text);
+                    i++;
+                })
+                console.log(arrayVlaues);
+                $.ajax({
+                    url: "addbooks",
+                    type: "POST",
+                    data: JSON.stringify({
+                        arrayVlaues
+                    }),
+                    success: function (result) {
+                        console.log(result);
+                        getbooksfromdb();
+                    }
+                })
             })
         });
 
@@ -288,6 +318,7 @@
                         }),
                         success: function (result) {
                             console.log(result);
+                            getbooksfromdb();
                         }
                     })
                 })
@@ -315,6 +346,7 @@
                 }),
                 success: function (result) {
                     console.log(result);
+                    getbooksfromdb();
                 }
             })
         });
